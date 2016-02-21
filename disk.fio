@@ -1,0 +1,10 @@
+[global]
+bs=256k
+direct=1
+rw=randrw
+ioengine=libaio
+iodepth=12
+zonesize=4m
+zoneskip=256m
+
+[/dev/sdb]
