@@ -1,7 +1,7 @@
 [global]
 bs=256k
 direct=1
-rw=randrw
+rw=randread
 ioengine=libaio
 iodepth=12
 zonesize=4m
