@@ -1,23 +1,17 @@
-# netio UDP multicast example. Writers and readers can be run on separate hosts.
 [global]
 ioengine=net
-protocol=udp
-bs=64
-size=100m
-# Set interface IP to send/receive traffic through specific network interface
-#interface=10.8.16.22
-port=10000
-hostname=239.0.0.0
-ttl=1
+hostname=./tmp.fio.sock
+#port=8888
+#Use =udp for UDP, =unix for local unix domain socket
+protocol=unix
+bs=4k
+size=100g
 
-[pingpong_reader]
-pingpong=1
+[receiver]
+#listen
 rw=read
 
-[normal_reader]
-rw=read
-
-[pingpong_writer]
+[sender]
+hostname=./tmp.fio.sock
 startdelay=1
-pingpong=1
 rw=write
