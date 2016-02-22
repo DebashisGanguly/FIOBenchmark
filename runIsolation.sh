@@ -16,6 +16,6 @@ done
 
 for (( i=0; i<$numOfRuns; i++ ))
 do
-	output=$dir"disk_"$i".log"
-	fio disk.fio &> $output
+	output=$dir"net2_"$i".log"
+	fio net2.fio &> $output
 done
