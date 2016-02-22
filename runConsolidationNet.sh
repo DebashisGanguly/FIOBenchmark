@@ -1,6 +1,6 @@
 dir="./Stats/Consolidation/"$1"/"
 
-numOfRuns=40
+numOfRuns=25
 
 for (( i=0; i<$numOfRuns; i++ ))
 do
