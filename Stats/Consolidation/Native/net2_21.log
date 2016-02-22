@@ -1,0 +1,65 @@
+pingpong_reader: (g=0): rw=read, bs=64-64/64-64/64-64, ioengine=net, iodepth=1
+normal_reader: (g=0): rw=read, bs=64-64/64-64/64-64, ioengine=net, iodepth=1
+pingpong_writer: (g=0): rw=write, bs=64-64/64-64/64-64, ioengine=net, iodepth=1
+fio-2.2.8
+Starting 3 processes
+
+pingpong_reader: (groupid=0, jobs=1): err= 0: pid=3444: Mon Feb 22 00:19:55 2016
+  read : io=102400KB, bw=20038Kbit/s, iops=40075, runt= 40883msec
+    clat (usec): min=10, max=88, avg=23.71, stdev= 1.55
+     lat (usec): min=10, max=88, avg=23.84, stdev= 1.56
+    clat percentiles (usec):
+     |  1.00th=[   22],  5.00th=[   22], 10.00th=[   22], 20.00th=[   22],
+     | 30.00th=[   23], 40.00th=[   23], 50.00th=[   23], 60.00th=[   24],
+     | 70.00th=[   24], 80.00th=[   25], 90.00th=[   25], 95.00th=[   26],
+     | 99.00th=[   30], 99.50th=[   31], 99.90th=[   32], 99.95th=[   33],
+     | 99.99th=[   36]
+    bw (Kbit/s): min=    0, max=21008, per=100.00%, avg=19799.32, stdev=2364.44
+    lat (usec) : 20=0.01%, 50=99.99%, 100=0.01%
+  cpu          : usr=10.45%, sys=43.36%, ctx=1638437, majf=0, minf=85
+  IO depths    : 1=100.0%, 2=0.0%, 4=0.0%, 8=0.0%, 16=0.0%, 32=0.0%, >=64=0.0%
+     submit    : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
+     complete  : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
+     issued    : total=r=1638400/w=0/d=0, short=r=0/w=0/d=0, drop=r=0/w=0/d=0
+     latency   : target=0, window=0, percentile=100.00%, depth=1
+normal_reader: (groupid=0, jobs=1): err= 0: pid=3445: Mon Feb 22 00:19:55 2016
+  read : io=102400KB, bw=20038Kbit/s, iops=40075, runt= 40883msec
+    clat (usec): min=1, max=85, avg=23.46, stdev= 1.27
+     lat (usec): min=1, max=85, avg=23.59, stdev= 1.29
+    clat percentiles (usec):
+     |  1.00th=[   22],  5.00th=[   22], 10.00th=[   22], 20.00th=[   23],
+     | 30.00th=[   23], 40.00th=[   23], 50.00th=[   23], 60.00th=[   23],
+     | 70.00th=[   24], 80.00th=[   24], 90.00th=[   24], 95.00th=[   25],
+     | 99.00th=[   29], 99.50th=[   30], 99.90th=[   31], 99.95th=[   32],
+     | 99.99th=[   36]
+    bw (Kbit/s): min=    0, max=21008, per=100.00%, avg=19799.22, stdev=2364.40
+    lat (usec) : 2=0.01%, 4=0.01%, 10=0.01%, 20=0.03%, 50=99.97%
+    lat (usec) : 100=0.01%
+  cpu          : usr=16.83%, sys=17.03%, ctx=1638423, majf=0, minf=52
+  IO depths    : 1=100.0%, 2=0.0%, 4=0.0%, 8=0.0%, 16=0.0%, 32=0.0%, >=64=0.0%
+     submit    : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
+     complete  : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
+     issued    : total=r=1638400/w=0/d=0, short=r=0/w=0/d=0, drop=r=0/w=0/d=0
+     latency   : target=0, window=0, percentile=100.00%, depth=1
+pingpong_writer: (groupid=0, jobs=1): err= 0: pid=3446: Mon Feb 22 00:19:55 2016
+  write: io=102400KB, bw=20038Kbit/s, iops=40075, runt= 40883msec
+    clat (usec): min=19, max=82, avg=23.59, stdev= 1.53
+     lat (usec): min=19, max=82, avg=23.74, stdev= 1.54
+    clat percentiles (usec):
+     |  1.00th=[   22],  5.00th=[   22], 10.00th=[   22], 20.00th=[   22],
+     | 30.00th=[   23], 40.00th=[   23], 50.00th=[   23], 60.00th=[   24],
+     | 70.00th=[   24], 80.00th=[   25], 90.00th=[   25], 95.00th=[   26],
+     | 99.00th=[   29], 99.50th=[   31], 99.90th=[   32], 99.95th=[   33],
+     | 99.99th=[   36]
+    bw (Kbit/s): min=18880, max=21008, per=100.00%, avg=20043.75, stdev=836.53
+    lat (usec) : 20=0.01%, 50=100.00%, 100=0.01%
+  cpu          : usr=11.53%, sys=67.93%, ctx=1637553, majf=0, minf=63
+  IO depths    : 1=100.0%, 2=0.0%, 4=0.0%, 8=0.0%, 16=0.0%, 32=0.0%, >=64=0.0%
+     submit    : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
+     complete  : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
+     issued    : total=r=0/w=1638400/d=0, short=r=0/w=0/d=0, drop=r=0/w=0/d=0
+     latency   : target=0, window=0, percentile=100.00%, depth=1
+
+Run status group 0 (all jobs):
+   READ: io=204800KB, aggrb=40072Kbit/s, minb=20032Kbit/s, maxb=20032Kbit/s, mint=40883msec, maxt=40883msec
+  WRITE: io=102400KB, aggrb=20032Kbit/s, minb=20032Kbit/s, maxb=20032Kbit/s, mint=40883msec, maxt=40883msec
