@@ -528,20 +528,20 @@ static void verify_udp_seq(struct thread_data *td, struct netio_data *nd,
 
 
 
-#define BUF_ENTRIES 2500
+#define BUF_ENTRIES 25000
 static uint64_t * g_send_buf = NULL;
 static uint64_t   g_send_ctr = 0;
+
 
 static uint64_t * g_recv_buf = NULL;
 static uint64_t   g_recv_ctr = 0;
 
-
-static unsigned long long 
+static uint64_t
 rdtscl(void)
 {
-    unsigned int lo, hi;
+    uint32_t lo, hi;
     __asm__ __volatile__ ("rdtsc" : "=a"(lo), "=d"(hi));                        
-    return ( (unsigned long long)lo)|( ((unsigned long long)hi)<<32 );  
+    return ( (uint64_t)lo)|( ((uint64_t)hi)<<32 );  
 }
 
 static void
@@ -549,28 +549,36 @@ dump_send_buf()
 {
 	int i = 0;
 
-	for (i = 0 ; i < (BUF_ENTRIES / 2); i++) {
-	    printf("send=%llu : poll=%llu\n", g_send_buf[i * 2], g_send_buf[(i * 2) + 1]);
+	for (i = 0 ; i < (g_send_ctr / 2); i++) {
+		printf("tid=%d SEND %lu : poll=%lu\n", gettid(), g_send_buf[i * 2], g_send_buf[(i * 2) + 1]);
 	}
+
+	memset(g_send_buf, 0, 16 * BUF_ENTRIES);
 
 	g_send_ctr = 0;
 
 	return;
 }
 
+
+
 static void
 dump_recv_buf()
 {
 	int i = 0;
 
-	for (i = 0 ; i < (BUF_ENTRIES / 2); i++) {
-	    printf("recv=%llu : poll=%llu\n", g_recv_buf[i * 2], g_recv_buf[(i * 2) + 1]);
+	for (i = 0 ; i < (g_recv_ctr / 2); i++) {
+		printf("tid=%d RECV %lu : poll=%lu\n", gettid(), g_recv_buf[i * 2], g_recv_buf[(i * 2) + 1]);
 	}
+
+	memset(g_recv_buf, 0, 16 * BUF_ENTRIES);
 
 	g_recv_ctr = 0;
 
 	return;
 }
+
+
 
 
 static int fio_netio_send(struct thread_data *td, struct io_u *io_u)
@@ -648,15 +656,12 @@ static int fio_netio_send(struct thread_data *td, struct io_u *io_u)
 		if (ret <= 0)
 			break;
 
-
-		if (g_send_ctr == BUF_ENTRIES) {
-			dump_send_buf();
-		}
 	} while (1);
 
 	if (g_send_ctr == BUF_ENTRIES) {
-		dump_send_buf();
+	    dump_send_buf();
 	}
+	
 
 	return ret;
 }
@@ -682,6 +687,8 @@ static int fio_netio_recv(struct thread_data *td, struct io_u *io_u)
 	struct netio_data *nd = td->io_ops->data;
 	struct netio_options *o = td->eo;
 	int ret, flags = 0;
+
+	//	log_info("Receiving [tid=%d] (%d) (%p)\n", gettid(), g_recv_ctr, g_recv_buf);
 
 	do {
 
@@ -730,6 +737,10 @@ static int fio_netio_recv(struct thread_data *td, struct io_u *io_u)
 			}
 
 			if (is_close_msg(io_u, ret)) {
+				log_info("Closing\n");
+				if (g_recv_ctr == BUF_ENTRIES) {
+					dump_recv_buf();
+				}
 				td->done = 1;
 				return 0;
 			}
@@ -759,14 +770,11 @@ static int fio_netio_recv(struct thread_data *td, struct io_u *io_u)
 		flags |= MSG_WAITALL;
 
 
-		if (g_recv_ctr == BUF_ENTRIES) {
-			dump_recv_buf();
-		}
 
 	} while (1);
 
 	if (g_recv_ctr == BUF_ENTRIES) {
-		dump_recv_buf();
+		    dump_recv_buf();
 	}
 
 
@@ -927,6 +935,15 @@ static int fio_netio_connect(struct thread_data *td, struct fio_file *f)
 		return 0;
 	} else if (o->proto == FIO_TYPE_TCP) {
 		socklen_t len = sizeof(nd->addr);
+
+		int flags = fcntl(f->fd, F_GETFL, 0);
+
+		if (flags == -1) {
+		    log_err("fio: Could not get socket flags\n");
+		    return 1;
+		}
+
+		//		fcntl(f->fd, F_SETFL, flags | O_NONBLOCK);
 
 		if (connect(f->fd, (struct sockaddr *) &nd->addr, len) < 0) {
 			td_verror(td, errno, "connect");
@@ -1246,6 +1263,9 @@ static int fio_netio_setup_connect(struct thread_data *td)
 {
 	struct netio_options *o = td->eo;
 
+
+
+
 	if (is_udp(o) || is_tcp(o))
 		return fio_netio_setup_connect_inet(td, td->o.filename,o->port);
 	else
@@ -1407,6 +1427,9 @@ static int fio_netio_setup_listen(struct thread_data *td)
 	struct netio_options *o = td->eo;
 	int ret;
 
+
+	
+
 	if (is_udp(o) || is_tcp(o))
 		ret = fio_netio_setup_listen_inet(td, o->port);
 	else
@@ -1438,14 +1461,9 @@ static int fio_netio_init(struct thread_data *td)
 
 	g_send_buf = calloc(16, BUF_ENTRIES);
 	g_send_ctr = 0;
-
 	g_recv_buf = calloc(16, BUF_ENTRIES);
 	g_recv_ctr = 0;
-	
-	if ((!g_send_buf) || (!g_recv_buf)) {
-	    printf("ERROR: Could not allocate measurement buffer\n");
-	    return 1;
-	}
+
 
 
 	if (td_random(td)) {
@@ -1491,6 +1509,11 @@ static int fio_netio_init(struct thread_data *td)
 static void fio_netio_cleanup(struct thread_data *td)
 {
 	struct netio_data *nd = td->io_ops->data;
+	//	struct netio_options *o = td->eo;
+	
+	dump_recv_buf();
+	dump_send_buf();
+
 
 	if (nd) {
 		if (nd->listenfd != -1)
