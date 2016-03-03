@@ -1449,10 +1449,8 @@ static int fio_netio_init(struct thread_data *td)
 	WSAStartup(MAKEWORD(2,2), &wsd);
 #endif
 
-	g_send_buf = calloc(16, BUF_ENTRIES);
-	g_send_ctr = 0;
-	g_recv_buf = calloc(16, BUF_ENTRIES);
-	g_recv_ctr = 0;
+	buf = calloc(sizeof(Stat), BUF_ENTRIES);
+	buf_ctr = 0;
 
 
 
