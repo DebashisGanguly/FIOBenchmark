@@ -943,13 +943,14 @@ static int fio_netio_connect(struct thread_data *td, struct fio_file *f)
 		    return 1;
 		}
 
-		//		fcntl(f->fd, F_SETFL, flags | O_NONBLOCK);
-
 		if (connect(f->fd, (struct sockaddr *) &nd->addr, len) < 0) {
 			td_verror(td, errno, "connect");
 			close(f->fd);
 			return 1;
 		}
+
+		fcntl(f->fd, F_SETFL, flags | O_NONBLOCK);
+		
 	} else if (o->proto == FIO_TYPE_TCP_V6) {
 		socklen_t len = sizeof(nd->addr6);
 
@@ -1008,16 +1009,19 @@ static int fio_netio_accept(struct thread_data *td, struct fio_file *f)
 		goto err;
 	}
 
-#ifdef CONFIG_TCP_NODELAY
-	if (o->nodelay && is_tcp(o)) {
+//#ifdef CONFIG_TCP_NODELAY
+	//if (o->nodelay && is_tcp(o)) {
 		int optval = 1;
 
 		if (setsockopt(f->fd, IPPROTO_TCP, TCP_NODELAY, (void *) &optval, sizeof(int)) < 0) {
 			log_err("fio: cannot set TCP_NODELAY option on socket (%s), disable with 'nodelay=0'\n", strerror(errno));
 			return 1;
 		}
-	}
-#endif
+		int flags = fcntl(f->fd, F_GETFL, 0);
+		fcntl(f->fd, F_SETFL, flags | O_NONBLOCK);
+
+	//}
+//#endif
 
 	reset_all_stats(td);
 	td_set_runstate(td, state);

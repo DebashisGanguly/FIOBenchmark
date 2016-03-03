@@ -3,7 +3,7 @@ ioengine=net
 port=8888
 protocol=tcp
 bs=4k
-size=320m
+size=64k
 iodepth=8
 
 [receiver]
