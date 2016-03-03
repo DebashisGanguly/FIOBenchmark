@@ -526,15 +526,19 @@ static void verify_udp_seq(struct thread_data *td, struct netio_data *nd,
 	nd->udp_recv_seq = seq + 1;
 }
 
+enum { SEND, RECV };
 
+typedef struct _stat {
+	int tid;
+	int type;
+	uint64_t actionCtr;
+	uint64_t pollCtr;
+} Stat;
 
-#define BUF_ENTRIES 25000
-static uint64_t * g_send_buf = NULL;
-static uint64_t   g_send_ctr = 0;
+#define BUF_ENTRIES 2500
 
-
-static uint64_t * g_recv_buf = NULL;
-static uint64_t   g_recv_ctr = 0;
+static Stat *buf = NULL;
+static uint64_t   buf_ctr = 0;
 
 static uint64_t
 rdtscl(void)
@@ -545,41 +549,20 @@ rdtscl(void)
 }
 
 static void
-dump_send_buf()
+dump_buf()
 {
 	int i = 0;
 
-	for (i = 0 ; i < (g_send_ctr / 2); i++) {
-		printf("tid=%d SEND %lu : poll=%lu\n", gettid(), g_send_buf[i * 2], g_send_buf[(i * 2) + 1]);
+	for (i = 0 ; i < buf_ctr; i++) {
+		printf("Tid=%d, %s=%lu, Poll=%lu\n", buf[i].tid, buf[i].type == SEND ? "SEND" : "RECV”, buf[i].actionCtr, buf[i].pollCtr);
 	}
 
-	memset(g_send_buf, 0, 16 * BUF_ENTRIES);
+	memset(buf, 0, sizeof(Stat) * BUF_ENTRIES);
 
-	g_send_ctr = 0;
+	buf_ctr = 0;
 
 	return;
 }
-
-
-
-static void
-dump_recv_buf()
-{
-	int i = 0;
-
-	for (i = 0 ; i < (g_recv_ctr / 2); i++) {
-		printf("tid=%d RECV %lu : poll=%lu\n", gettid(), g_recv_buf[i * 2], g_recv_buf[(i * 2) + 1]);
-	}
-
-	memset(g_recv_buf, 0, 16 * BUF_ENTRIES);
-
-	g_recv_ctr = 0;
-
-	return;
-}
-
-
-
 
 static int fio_netio_send(struct thread_data *td, struct io_u *io_u)
 {
@@ -589,8 +572,8 @@ static int fio_netio_send(struct thread_data *td, struct io_u *io_u)
 
 	do {
 
-		if (g_send_ctr == BUF_ENTRIES) {
-			dump_send_buf();
+		if (buf_ctr == BUF_ENTRIES) {
+			dump_buf();
 		}
 
 		if (is_udp(o)) {
@@ -630,12 +613,14 @@ static int fio_netio_send(struct thread_data *td, struct io_u *io_u)
 				
 				end = rdtscl();
 				
-				g_send_buf[g_send_ctr++] = end - start;
+				buf[buf_ctr].tid = gettid();
+				buf[buf_ctr].type = SEND;
+				buf[buf_ctr]. = end - start;
 			}
 		}
 
 		if (ret > 0) {
-			g_send_ctr++;
+			buf_ctr++;
 			break;
 		}
 
@@ -649,17 +634,16 @@ static int fio_netio_send(struct thread_data *td, struct io_u *io_u)
 
 			    end = rdtscl();
 
-			    g_send_buf[g_send_ctr++] = end - start;
-
-
+			    buf[buf_ctr++].pollCtr = end - start;
+			
 		}
 		if (ret <= 0)
 			break;
 
 	} while (1);
 
-	if (g_send_ctr == BUF_ENTRIES) {
-	    dump_send_buf();
+	if (buf_ctr == BUF_ENTRIES) {
+	    dump_buf();
 	}
 	
 
@@ -693,8 +677,8 @@ static int fio_netio_recv(struct thread_data *td, struct io_u *io_u)
 	do {
 
 
-		if (g_recv_ctr == BUF_ENTRIES) {
-			dump_recv_buf();
+		if (buf_ctr == BUF_ENTRIES) {
+			dump_buf();
 		}
 
 		if (is_udp(o)) {
@@ -733,24 +717,26 @@ static int fio_netio_recv(struct thread_data *td, struct io_u *io_u)
 				
 				end = rdtscl();
 				
-				g_recv_buf[g_recv_ctr++] = end - start;
+				buf[buf_ctr].tid = gettid();
+				buf[buf_ctr].type = RECV;
+				buf[buf_ctr]. = end - start;
 			}
 
 			if (is_close_msg(io_u, ret)) {
 				log_info("Closing\n");
-				if (g_recv_ctr == BUF_ENTRIES) {
-					dump_recv_buf();
+				if (buf_ctr == BUF_ENTRIES) {
+					dump_buf();
 				}
 				td->done = 1;
 				return 0;
 			}
 		}
 		if (ret > 0) {
-			g_recv_ctr++;
+			buf_ctr++;
 			break;
 		}
 		else if (!ret && (flags & MSG_WAITALL)) {
-			g_recv_ctr++;
+			buf_ctr++;
 			break;
 		}
 
@@ -762,7 +748,7 @@ static int fio_netio_recv(struct thread_data *td, struct io_u *io_u)
 			ret = poll_wait(td, io_u->file->fd, POLLIN);
 			end = rdtscl();
 			    
-			g_recv_buf[g_recv_ctr++] = end - start;
+			buf[buf_ctr++].pollCtr = end - start;
 		}
 
 		if (ret <= 0)
@@ -773,8 +759,8 @@ static int fio_netio_recv(struct thread_data *td, struct io_u *io_u)
 
 	} while (1);
 
-	if (g_recv_ctr == BUF_ENTRIES) {
-		    dump_recv_buf();
+	if (buf_ctr == BUF_ENTRIES) {
+		    dump_buf();
 	}
 
 
