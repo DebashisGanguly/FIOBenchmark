@@ -554,7 +554,7 @@ dump_buf()
 	int i = 0;
 
 	for (i = 0 ; i < buf_ctr; i++) {
-		printf("Tid=%d, %s=%lu, Poll=%lu\n", buf[i].tid, buf[i].type == SEND ? "SEND" : "RECV”, buf[i].actionCtr, buf[i].pollCtr);
+		printf("Tid=%d, %s=%lu, Poll=%lu\n", buf[i].tid, buf[i].type == SEND ? "SEND" : "RECV", buf[i].actionCtr, buf[i].pollCtr);
 	}
 
 	memset(buf, 0, sizeof(Stat) * BUF_ENTRIES);
@@ -615,7 +615,7 @@ static int fio_netio_send(struct thread_data *td, struct io_u *io_u)
 				
 				buf[buf_ctr].tid = gettid();
 				buf[buf_ctr].type = SEND;
-				buf[buf_ctr]. = end - start;
+				buf[buf_ctr].actionCtr = end - start;
 			}
 		}
 
@@ -719,7 +719,7 @@ static int fio_netio_recv(struct thread_data *td, struct io_u *io_u)
 				
 				buf[buf_ctr].tid = gettid();
 				buf[buf_ctr].type = RECV;
-				buf[buf_ctr]. = end - start;
+				buf[buf_ctr].actionCtr = end - start;
 			}
 
 			if (is_close_msg(io_u, ret)) {
@@ -1499,9 +1499,7 @@ static void fio_netio_cleanup(struct thread_data *td)
 	struct netio_data *nd = td->io_ops->data;
 	//	struct netio_options *o = td->eo;
 	
-	dump_recv_buf();
-	dump_send_buf();
-
+	dump_buf();
 
 	if (nd) {
 		if (nd->listenfd != -1)
