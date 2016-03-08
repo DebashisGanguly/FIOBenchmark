@@ -1,0 +1,141 @@
+receiver: (g=0): rw=read, bs=4K-4K/4K-4K/4K-4K, ioengine=net, iodepth=8
+sender: (g=0): rw=write, bs=4K-4K/4K-4K/4K-4K, ioengine=net, iodepth=8
+fio-2.6
+Starting 2 processes
+fio: waiting for connection
+Tid=8509, RECV=7832, Poll=115796
+Tid=8509, RECV=12348, Poll=0
+Tid=8509, SEND=44972, Poll=0
+Tid=8509, RECV=2140, Poll=80364
+Tid=8509, RECV=3972, Poll=0
+Tid=8509, SEND=23964, Poll=0
+Tid=8509, RECV=1872, Poll=51904
+Tid=8509, RECV=3480, Poll=0
+Tid=8509, SEND=20136, Poll=0
+Tid=8509, RECV=1644, Poll=49592
+Tid=8509, RECV=3360, Poll=0
+Tid=8509, SEND=19956, Poll=0
+Tid=8509, RECV=1624, Poll=48372
+Tid=8509, RECV=3288, Poll=0
+Tid=8509, SEND=20104, Poll=0
+Tid=8509, RECV=1692, Poll=47976
+Tid=8509, RECV=3200, Poll=0
+Tid=8509, SEND=19896, Poll=0
+Tid=8509, RECV=1688, Poll=97708
+Tid=8509, RECV=7332, Poll=0
+Tid=8509, SEND=30560, Poll=0
+Tid=8509, RECV=1864, Poll=53784
+Tid=8509, RECV=3384, Poll=0
+Tid=8509, SEND=20384, Poll=0
+Tid=8509, RECV=1676, Poll=47120
+Tid=8509, RECV=3268, Poll=0
+Tid=8509, SEND=19988, Poll=0
+Tid=8509, RECV=1632, Poll=46668
+Tid=8509, RECV=3312, Poll=0
+Tid=8509, SEND=19568, Poll=0
+Tid=8509, RECV=1672, Poll=46308
+Tid=8509, RECV=3268, Poll=0
+Tid=8509, SEND=19844, Poll=0
+Tid=8509, RECV=1640, Poll=46772
+Tid=8509, RECV=3160, Poll=0
+Tid=8509, SEND=43396, Poll=0
+Tid=8509, RECV=2236, Poll=49632
+Tid=8509, RECV=3292, Poll=0
+Tid=8509, SEND=20204, Poll=0
+Tid=8509, RECV=1724, Poll=47004
+Tid=8509, RECV=3400, Poll=0
+Tid=8509, SEND=19732, Poll=0
+Tid=8509, RECV=1764, Poll=46056
+Tid=8509, RECV=3328, Poll=0
+Tid=8509, SEND=19452, Poll=0
+Tid=8509, RECV=1812, Poll=46088
+Tid=8509, RECV=3424, Poll=0
+Tid=8509, SEND=19716, Poll=0
+Tid=8510, SEND=68388, Poll=0
+Tid=8510, RECV=3180, Poll=120728
+Tid=8510, RECV=4632, Poll=0
+Tid=8510, SEND=28040, Poll=0
+Tid=8510, RECV=1908, Poll=55296
+Tid=8510, RECV=3420, Poll=0
+Tid=8510, SEND=24444, Poll=0
+Tid=8510, RECV=1548, Poll=49180
+Tid=8510, RECV=3192, Poll=0
+Tid=8510, SEND=22824, Poll=0
+Tid=8510, RECV=1456, Poll=47992
+Tid=8510, RECV=3140, Poll=0
+Tid=8510, SEND=22408, Poll=0
+Tid=8510, RECV=1512, Poll=47644
+Tid=8510, RECV=3212, Poll=0
+Tid=8510, SEND=22176, Poll=0
+Tid=8510, RECV=1512, Poll=47616
+Tid=8510, RECV=3200, Poll=0
+Tid=8510, SEND=22268, Poll=0
+Tid=8510, RECV=3248, Poll=67256
+Tid=8510, RECV=6356, Poll=0
+Tid=8510, SEND=24340, Poll=0
+Tid=8510, RECV=1740, Poll=47040
+Tid=8510, RECV=3208, Poll=0
+Tid=8510, SEND=22256, Poll=0
+Tid=8510, RECV=1540, Poll=46248
+Tid=8510, RECV=3292, Poll=0
+Tid=8510, SEND=22040, Poll=0
+Tid=8510, RECV=1564, Poll=45748
+Tid=8510, RECV=3108, Poll=0
+Tid=8510, SEND=22200, Poll=0
+Tid=8510, RECV=1600, Poll=45820
+Tid=8510, RECV=3232, Poll=0
+Tid=8510, SEND=22040, Poll=0
+Tid=8510, RECV=1656, Poll=72680
+Tid=8510, RECV=3504, Poll=0
+Tid=8510, SEND=23632, Poll=0
+Tid=8510, RECV=1616, Poll=46592
+Tid=8510, RECV=3220, Poll=0
+Tid=8510, SEND=22348, Poll=0
+Tid=8510, RECV=1696, Poll=46340
+Tid=8510, RECV=3208, Poll=0
+Tid=8510, SEND=21736, Poll=0
+Tid=8510, RECV=1596, Poll=45248
+Tid=8510, RECV=3104, Poll=0
+Tid=8510, SEND=21824, Poll=0
+Tid=8510, RECV=1568, Poll=605096
+Tid=8510, RECV=46528, Poll=0
+
+receiver: (groupid=0, jobs=1): err= 0: pid=8509: Tue Mar  8 02:08:12 2016
+  read : io=65536B, bw=512000Kbit/s, iops=16000, runt=     1msec
+    clat (usec): min=34, max=95, avg=42.75, stdev=16.36
+     lat (usec): min=34, max=96, avg=43.06, stdev=16.45
+    clat percentiles (usec):
+     |  1.00th=[   34],  5.00th=[   34], 10.00th=[   34], 20.00th=[   34],
+     | 30.00th=[   34], 40.00th=[   35], 50.00th=[   36], 60.00th=[   36],
+     | 70.00th=[   39], 80.00th=[   46], 90.00th=[   65], 95.00th=[   95],
+     | 99.00th=[   95], 99.50th=[   95], 99.90th=[   95], 99.95th=[   95],
+     | 99.99th=[   95]
+    bw (Kbit/s): min=   24, max=   24, per=0.04%, avg=24.00, stdev= 0.00
+    lat (usec) : 50=81.25%, 100=18.75%
+  cpu          : usr=0.00%, sys=0.00%, ctx=16, majf=0, minf=17
+  IO depths    : 1=100.0%, 2=0.0%, 4=0.0%, 8=0.0%, 16=0.0%, 32=0.0%, >=64=0.0%
+     submit    : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
+     complete  : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
+     issued    : total=r=16/w=0/d=0, short=r=0/w=0/d=0, drop=r=0/w=0/d=0
+     latency   : target=0, window=0, percentile=100.00%, depth=8
+sender: (groupid=0, jobs=1): err= 0: pid=8510: Tue Mar  8 02:08:12 2016
+  write: io=65536B, bw=256000Kbit/s, iops=8000, runt=     2msec
+    clat (usec): min=34, max=310, avg=60.00, stdev=68.82
+     lat (usec): min=35, max=310, avg=60.25, stdev=68.79
+    clat percentiles (usec):
+     |  1.00th=[   34],  5.00th=[   34], 10.00th=[   35], 20.00th=[   35],
+     | 30.00th=[   35], 40.00th=[   36], 50.00th=[   36], 60.00th=[   37],
+     | 70.00th=[   42], 80.00th=[   48], 90.00th=[   99], 95.00th=[  310],
+     | 99.00th=[  310], 99.50th=[  310], 99.90th=[  310], 99.95th=[  310],
+     | 99.99th=[  310]
+    lat (usec) : 50=81.25%, 100=12.50%, 500=6.25%
+  cpu          : usr=0.00%, sys=0.00%, ctx=17, majf=0, minf=28
+  IO depths    : 1=100.0%, 2=0.0%, 4=0.0%, 8=0.0%, 16=0.0%, 32=0.0%, >=64=0.0%
+     submit    : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
+     complete  : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
+     issued    : total=r=0/w=16/d=0, short=r=0/w=0/d=0, drop=r=0/w=0/d=0
+     latency   : target=0, window=0, percentile=100.00%, depth=8
+
+Run status group 0 (all jobs):
+   READ: io=64KB, aggrb=512000Kbit/s, minb=512000Kbit/s, maxb=512000Kbit/s, mint=1msec, maxt=1msec
+  WRITE: io=64KB, aggrb=256000Kbit/s, minb=256000Kbit/s, maxb=256000Kbit/s, mint=2msec, maxt=2msec
