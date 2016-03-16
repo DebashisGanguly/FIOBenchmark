@@ -1,0 +1,3 @@
+fio: ./data1 is not a directory
+fio: failed parsing directory=./data1
+fio: job global dropped
