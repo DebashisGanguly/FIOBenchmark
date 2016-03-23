@@ -1,0 +1,36 @@
+receiver: (g=0): rw=read, bs=128K-128K/128K-128K/128K-128K, ioengine=net, iodepth=8
+sender: (g=0): rw=write, bs=128K-128K/128K-128K/128K-128K, ioengine=net, iodepth=8
+fio-2.8
+Starting 2 processes
+fio: waiting for connection
+fio: pid=4152, got signal=13
+
+receiver: (groupid=0, jobs=1): err= 0: pid=4151: Tue Mar 22 23:44:49 2016
+  read : io=10232MB, bw=11704Mbit/s, iops=11722, runt=  6994msec
+    clat (usec): min=13, max=435, avg=83.19, stdev=35.86
+     lat (usec): min=13, max=435, avg=83.40, stdev=35.85
+    clat percentiles (usec):
+     |  1.00th=[   47],  5.00th=[   49], 10.00th=[   51], 20.00th=[   53],
+     | 30.00th=[   55], 40.00th=[   65], 50.00th=[   72], 60.00th=[   80],
+     | 70.00th=[   88], 80.00th=[  104], 90.00th=[  145], 95.00th=[  153],
+     | 99.00th=[  189], 99.50th=[  197], 99.90th=[  215], 99.95th=[  223],
+     | 99.99th=[  235]
+    bw (Mbit/s): min=    0, max=13308, per=100.00%, avg=11025.50, stdev=3530.85
+    lat (usec) : 20=0.07%, 50=5.13%, 100=72.83%, 250=21.80%, 500=0.01%
+  cpu          : usr=3.99%, sys=78.36%, ctx=43641, majf=0, minf=211
+  IO depths    : 1=100.0%, 2=0.0%, 4=0.0%, 8=0.0%, 16=0.0%, 32=0.0%, >=64=0.0%
+     submit    : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
+     complete  : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
+     issued    : total=r=81986/w=0/d=0, short=r=130/w=0/d=0, drop=r=0/w=0/d=0
+     latency   : target=0, window=0, percentile=100.00%, depth=8
+sender: (groupid=0, jobs=1): err= 0: pid=4152: Tue Mar 22 23:44:49 2016
+    lat (usec) : 50=0.01%, 100=85.29%, 250=14.71%, 500=0.01%
+  cpu          : usr=0.00%, sys=0.00%, ctx=0, majf=0, minf=0
+  IO depths    : 1=100.0%, 2=0.0%, 4=0.0%, 8=0.0%, 16=0.0%, 32=0.0%, >=64=0.0%
+     submit    : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
+     complete  : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
+     issued    : total=r=0/w=81860/d=0, short=r=0/w=1/d=0, drop=r=0/w=0/d=0
+     latency   : target=0, window=0, percentile=100.00%, depth=8
+
+Run status group 0 (all jobs):
+   READ: io=10232MB, aggrb=11704Mbit/s, minb=11704Mbit/s, maxb=11704Mbit/s, mint=6994msec, maxt=6994msec
