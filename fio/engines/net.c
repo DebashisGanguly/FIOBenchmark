@@ -481,9 +481,6 @@ static int fio_netio_splice_out(struct thread_data *td, struct io_u *io_u)
 }
 #endif
 
-
-
-
 static void store_udp_seq(struct netio_data *nd, struct io_u *io_u)
 {
 	struct udp_seq *us;
@@ -525,61 +522,6 @@ static void verify_udp_seq(struct thread_data *td, struct netio_data *nd,
 	nd->udp_recv_seq = seq + 1;
 }
 
-
-
-#define BUF_ENTRIES 25000
-static uint64_t * g_send_buf = NULL;
-static uint64_t   g_send_ctr = 0;
-
-
-static uint64_t * g_recv_buf = NULL;
-static uint64_t   g_recv_ctr = 0;
-
-static uint64_t
-rdtscl(void)
-{
-    uint32_t lo, hi;
-    __asm__ __volatile__ ("rdtsc" : "=a"(lo), "=d"(hi));                        
-    return ( (uint64_t)lo)|( ((uint64_t)hi)<<32 );  
-}
-
-static void
-dump_send_buf()
-{
-	int i = 0;
-
-	for (i = 0 ; i < (g_send_ctr / 2); i++) {
-		printf("tid=%d SEND %lu : poll=%lu\n", gettid(), g_send_buf[i * 2], g_send_buf[(i * 2) + 1]);
-	}
-
-	memset(g_send_buf, 0, 16 * BUF_ENTRIES);
-
-	g_send_ctr = 0;
-
-	return;
-}
-
-
-
-static void
-dump_recv_buf()
-{
-	int i = 0;
-
-	for (i = 0 ; i < (g_recv_ctr / 2); i++) {
-		printf("tid=%d RECV %lu : poll=%lu\n", gettid(), g_recv_buf[i * 2], g_recv_buf[(i * 2) + 1]);
-	}
-
-	memset(g_recv_buf, 0, 16 * BUF_ENTRIES);
-
-	g_recv_ctr = 0;
-
-	return;
-}
-
-
-
-
 static int fio_netio_send(struct thread_data *td, struct io_u *io_u)
 {
 	struct netio_data *nd = td->io_ops->data;
@@ -587,11 +529,6 @@ static int fio_netio_send(struct thread_data *td, struct io_u *io_u)
 	int ret, flags = 0;
 
 	do {
-
-		if (g_send_ctr == BUF_ENTRIES) {
-			dump_send_buf();
-		}
-
 		if (is_udp(o)) {
 			const struct sockaddr *to;
 			socklen_t len;
@@ -618,49 +555,16 @@ static int fio_netio_send(struct thread_data *td, struct io_u *io_u)
 			    td->o.size) && !o->pingpong)
 				flags |= MSG_MORE;
 #endif
-
-			{
-				unsigned long long start = 0;
-				unsigned long long end   = 0;
-				
-				start = rdtscl();
-				ret = send(io_u->file->fd, io_u->xfer_buf,
-					   io_u->xfer_buflen, flags);
-				
-				end = rdtscl();
-				
-				g_send_buf[g_send_ctr++] = end - start;
-			}
+			ret = send(io_u->file->fd, io_u->xfer_buf,
+					io_u->xfer_buflen, flags);
 		}
-
-		if (ret > 0) {
-			g_send_ctr++;
+		if (ret > 0)
 			break;
-		}
 
-		{
-			    unsigned long long start = 0;
-			    unsigned long long end   = 0;
-
-			    start = rdtscl();
-
-			    ret = poll_wait(td, io_u->file->fd, POLLOUT);
-
-			    end = rdtscl();
-
-			    g_send_buf[g_send_ctr++] = end - start;
-
-
-		}
+		ret = poll_wait(td, io_u->file->fd, POLLOUT);
 		if (ret <= 0)
 			break;
-
 	} while (1);
-
-	if (g_send_ctr == BUF_ENTRIES) {
-	    dump_send_buf();
-	}
-	
 
 	return ret;
 }
@@ -687,15 +591,7 @@ static int fio_netio_recv(struct thread_data *td, struct io_u *io_u)
 	struct netio_options *o = td->eo;
 	int ret, flags = 0;
 
-	//	log_info("Receiving [tid=%d] (%d) (%p)\n", gettid(), g_recv_ctr, g_recv_buf);
-
 	do {
-
-
-		if (g_recv_ctr == BUF_ENTRIES) {
-			dump_recv_buf();
-		}
-
 		if (is_udp(o)) {
 			struct sockaddr *from;
 			socklen_t l, *len = &l;
@@ -721,61 +617,24 @@ static int fio_netio_recv(struct thread_data *td, struct io_u *io_u)
 				return 0;
 			}
 		} else {
-
-			{
-				unsigned long long start = 0;
-				unsigned long long end   = 0;
-				
-				start = rdtscl();
-				ret = recv(io_u->file->fd, io_u->xfer_buf,
-					   io_u->xfer_buflen, flags);
-				
-				end = rdtscl();
-				
-				g_recv_buf[g_recv_ctr++] = end - start;
-			}
+			ret = recv(io_u->file->fd, io_u->xfer_buf,
+					io_u->xfer_buflen, flags);
 
 			if (is_close_msg(io_u, ret)) {
-				log_info("Closing\n");
-				if (g_recv_ctr == BUF_ENTRIES) {
-					dump_recv_buf();
-				}
 				td->done = 1;
 				return 0;
 			}
 		}
-		if (ret > 0) {
-			g_recv_ctr++;
+		if (ret > 0)
 			break;
-		}
-		else if (!ret && (flags & MSG_WAITALL)) {
-			g_recv_ctr++;
+		else if (!ret && (flags & MSG_WAITALL))
 			break;
-		}
 
-		{
-			unsigned long long start = 0;
-			unsigned long long end   = 0;
-			
-			start = rdtscl();
-			ret = poll_wait(td, io_u->file->fd, POLLIN);
-			end = rdtscl();
-			    
-			g_recv_buf[g_recv_ctr++] = end - start;
-		}
-
+		ret = poll_wait(td, io_u->file->fd, POLLIN);
 		if (ret <= 0)
 			break;
 		flags |= MSG_WAITALL;
-
-
-
 	} while (1);
-
-	if (g_recv_ctr == BUF_ENTRIES) {
-		    dump_recv_buf();
-	}
-
 
 	if (is_udp(o) && td->o.verify == VERIFY_NONE)
 		verify_udp_seq(td, nd, io_u);
@@ -934,15 +793,6 @@ static int fio_netio_connect(struct thread_data *td, struct fio_file *f)
 		return 0;
 	} else if (o->proto == FIO_TYPE_TCP) {
 		socklen_t len = sizeof(nd->addr);
-
-		int flags = fcntl(f->fd, F_GETFL, 0);
-
-		if (flags == -1) {
-		    log_err("fio: Could not get socket flags\n");
-		    return 1;
-		}
-
-		//		fcntl(f->fd, F_SETFL, flags | O_NONBLOCK);
 
 		if (connect(f->fd, (struct sockaddr *) &nd->addr, len) < 0) {
 			td_verror(td, errno, "connect");
@@ -1262,9 +1112,6 @@ static int fio_netio_setup_connect(struct thread_data *td)
 {
 	struct netio_options *o = td->eo;
 
-
-
-
 	if (is_udp(o) || is_tcp(o))
 		return fio_netio_setup_connect_inet(td, td->o.filename,o->port);
 	else
@@ -1426,9 +1273,6 @@ static int fio_netio_setup_listen(struct thread_data *td)
 	struct netio_options *o = td->eo;
 	int ret;
 
-
-	
-
 	if (is_udp(o) || is_tcp(o))
 		ret = fio_netio_setup_listen_inet(td, o->port);
 	else
@@ -1457,13 +1301,6 @@ static int fio_netio_init(struct thread_data *td)
 	WSADATA wsd;
 	WSAStartup(MAKEWORD(2,2), &wsd);
 #endif
-
-	g_send_buf = calloc(16, BUF_ENTRIES);
-	g_send_ctr = 0;
-	g_recv_buf = calloc(16, BUF_ENTRIES);
-	g_recv_ctr = 0;
-
-
 
 	if (td_random(td)) {
 		log_err("fio: network IO can't be random\n");
@@ -1508,11 +1345,6 @@ static int fio_netio_init(struct thread_data *td)
 static void fio_netio_cleanup(struct thread_data *td)
 {
 	struct netio_data *nd = td->io_ops->data;
-	//	struct netio_options *o = td->eo;
-	
-	dump_recv_buf();
-	dump_send_buf();
-
 
 	if (nd) {
 		if (nd->listenfd != -1)

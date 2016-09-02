@@ -3,7 +3,7 @@ ioengine=net
 port=8888
 protocol=tcp
 bs=4k
-size=100m
+size=10g
 iodepth=8
 
 [receiver]
@@ -16,4 +16,3 @@ hostname=localhost
 startdelay=1
 rw=write
 pingpong=1
-
