@@ -1383,6 +1383,22 @@ struct fork_data {
  */
 static void *thread_main(void *data)
 {
+	cpu_set_t cpuset;
+
+        CPU_ZERO(&cpuset);       //clears the cpuset
+        CPU_SET( gettid()%2 , &cpuset); //set cpuset
+
+        /*
+        * cpu affinity for the calling thread
+        * first parameter is the pid, 0 = calling thread
+        * second parameter is the size of your cpuset
+        * third param is the cpuset in which your thread will be
+        * placed. Each bit represents a CPU
+        */
+        sched_setaffinity(0, sizeof(cpuset), &cpuset);
+
+        printf("@@@@thread id %d on cpu id %d\n",gettid(), gettid()%2);
+
 	struct fork_data *fd = data;
 	unsigned long long elapsed_us[DDIR_RWDIR_CNT] = { 0, };
 	struct thread_data *td = fd->td;
