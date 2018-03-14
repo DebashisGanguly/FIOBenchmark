@@ -1,0 +1,52 @@
+receiver: (g=0): rw=read, bs=4K-4K/4K-4K/4K-4K, ioengine=net, iodepth=1
+sender: (g=0): rw=write, bs=4K-4K/4K-4K/4K-4K, ioengine=net, iodepth=1
+fio-2.6
+Starting 2 processes
+@@@@thread id 2233 on cpu id 1
+fio: waiting for connection
+@@@@thread id 2234 on cpu id 0
+
+receiver: (groupid=0, jobs=1): err=106 (file:engines/net.c:901, func=sendto udp link close, error=Transport endpoint is already connected): pid=2233: Mon Dec 31 19:37:32 2007
+  read : io=102400MB, bw=13888Mbit/s, iops=444424, runt= 58985msec
+    clat (usec): min=0, max=33588, avg= 1.82, stdev= 9.80
+     lat (usec): min=1, max=33588, avg= 1.86, stdev= 9.81
+    clat percentiles (usec):
+     |  1.00th=[    1],  5.00th=[    1], 10.00th=[    1], 20.00th=[    1],
+     | 30.00th=[    1], 40.00th=[    1], 50.00th=[    1], 60.00th=[    1],
+     | 70.00th=[    2], 80.00th=[    2], 90.00th=[    2], 95.00th=[    2],
+     | 99.00th=[    8], 99.50th=[   45], 99.90th=[   77], 99.95th=[   80],
+     | 99.99th=[  115]
+    bw (Mbit/s): min=    0, max=14289, per=100.00%, avg=13770.10, stdev=1306.21
+    lat (usec) : 2=62.74%, 4=36.03%, 10=0.27%, 20=0.23%, 50=0.49%
+    lat (usec) : 100=0.21%, 250=0.02%, 500=0.01%, 750=0.01%
+    lat (msec) : 10=0.01%, 20=0.01%, 50=0.01%
+  cpu          : usr=29.26%, sys=66.02%, ctx=154991, majf=0, minf=3
+  IO depths    : 1=100.0%, 2=0.0%, 4=0.0%, 8=0.0%, 16=0.0%, 32=0.0%, >=64=0.0%
+     submit    : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
+     complete  : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
+     issued    : total=r=26214400/w=0/d=0, short=r=0/w=0/d=0, drop=r=0/w=0/d=0
+     latency   : target=0, window=0, percentile=100.00%, depth=1
+sender: (groupid=0, jobs=1): err=106 (file:engines/net.c:901, func=sendto udp link close, error=Transport endpoint is already connected): pid=2234: Mon Dec 31 19:37:32 2007
+  write: io=102400MB, bw=13888Mbit/s, iops=444424, runt= 58985msec
+    clat (usec): min=1, max=38636, avg= 1.68, stdev= 9.76
+     lat (usec): min=1, max=38636, avg= 1.76, stdev= 9.77
+    clat percentiles (usec):
+     |  1.00th=[    1],  5.00th=[    1], 10.00th=[    1], 20.00th=[    1],
+     | 30.00th=[    1], 40.00th=[    1], 50.00th=[    1], 60.00th=[    1],
+     | 70.00th=[    2], 80.00th=[    2], 90.00th=[    2], 95.00th=[    2],
+     | 99.00th=[    9], 99.50th=[   12], 99.90th=[   48], 99.95th=[   58],
+     | 99.99th=[  124]
+    bw (Mbit/s): min=12924, max=14285, per=100.00%, avg=13887.69, stdev=269.03
+    lat (usec) : 2=60.64%, 4=35.82%, 10=2.55%, 20=0.73%, 50=0.16%
+    lat (usec) : 100=0.08%, 250=0.01%, 500=0.01%, 750=0.01%
+    lat (msec) : 20=0.01%, 50=0.01%
+  cpu          : usr=33.98%, sys=65.22%, ctx=4398, majf=0, minf=6
+  IO depths    : 1=100.0%, 2=0.0%, 4=0.0%, 8=0.0%, 16=0.0%, 32=0.0%, >=64=0.0%
+     submit    : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
+     complete  : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
+     issued    : total=r=0/w=26214400/d=0, short=r=0/w=0/d=0, drop=r=0/w=0/d=0
+     latency   : target=0, window=0, percentile=100.00%, depth=1
+
+Run status group 0 (all jobs):
+   READ: io=102400MB, aggrb=13888Mbit/s, minb=13888Mbit/s, maxb=13888Mbit/s, mint=58985msec, maxt=58985msec
+  WRITE: io=102400MB, aggrb=13888Mbit/s, minb=13888Mbit/s, maxb=13888Mbit/s, mint=58985msec, maxt=58985msec

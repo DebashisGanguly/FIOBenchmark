@@ -1,0 +1,17 @@
+[global]
+ioengine=net
+hostname=./tmp.fio.sock
+#port=8888
+#Use =udp for UDP, =unix for local unix domain socket
+protocol=unix
+bs=4k
+size=100g
+
+[receiver]
+#listen
+rw=read
+
+[sender]
+hostname=./tmp.fio.sock
+startdelay=1
+rw=write
