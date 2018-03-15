@@ -1,0 +1,51 @@
+clock setaffinity failed: Invalid argument
+receiver: (g=0): rw=read, bs=4K-4K/4K-4K/4K-4K, ioengine=net, iodepth=1
+sender: (g=0): rw=write, bs=4K-4K/4K-4K/4K-4K, ioengine=net, iodepth=1
+fio-2.6
+Starting 2 processes
+@@@@thread id 6626 on cpu id 0
+fio: waiting for connection
+@@@@thread id 6627 on cpu id 1
+
+receiver: (groupid=0, jobs=1): err=106 (file:engines/net.c:901, func=sendto udp link close, error=Transport endpoint is already connected): pid=6626: Thu Mar 15 04:58:15 2018
+  read : io=102400MB, bw=11753Mbit/s, iops=376108, runt= 69699msec
+    clat (usec): min=1, max=989, avg= 1.68, stdev= 0.98
+     lat (usec): min=1, max=989, avg= 1.87, stdev= 0.98
+    clat percentiles (usec):
+     |  1.00th=[    1],  5.00th=[    1], 10.00th=[    1], 20.00th=[    1],
+     | 30.00th=[    1], 40.00th=[    2], 50.00th=[    2], 60.00th=[    2],
+     | 70.00th=[    2], 80.00th=[    2], 90.00th=[    2], 95.00th=[    2],
+     | 99.00th=[    3], 99.50th=[    4], 99.90th=[   14], 99.95th=[   15],
+     | 99.99th=[   16]
+    bw (Mbit/s): min=    0, max=11846, per=100.00%, avg=11669.77, stdev=996.30
+    lat (usec) : 2=39.36%, 4=60.06%, 10=0.24%, 20=0.33%, 50=0.01%
+    lat (usec) : 100=0.01%, 250=0.01%, 1000=0.01%
+  cpu          : usr=25.49%, sys=74.46%, ctx=1338, majf=0, minf=3
+  IO depths    : 1=100.0%, 2=0.0%, 4=0.0%, 8=0.0%, 16=0.0%, 32=0.0%, >=64=0.0%
+     submit    : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
+     complete  : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
+     issued    : total=r=26214400/w=0/d=0, short=r=0/w=0/d=0, drop=r=0/w=0/d=0
+     latency   : target=0, window=0, percentile=100.00%, depth=1
+sender: (groupid=0, jobs=1): err=106 (file:engines/net.c:901, func=sendto udp link close, error=Transport endpoint is already connected): pid=6627: Thu Mar 15 04:58:15 2018
+  write: io=102400MB, bw=11753Mbit/s, iops=376108, runt= 69699msec
+    clat (usec): min=1, max=990, avg= 1.61, stdev= 1.00
+     lat (usec): min=1, max=990, avg= 1.81, stdev= 1.02
+    clat percentiles (usec):
+     |  1.00th=[    1],  5.00th=[    1], 10.00th=[    1], 20.00th=[    1],
+     | 30.00th=[    1], 40.00th=[    1], 50.00th=[    2], 60.00th=[    2],
+     | 70.00th=[    2], 80.00th=[    2], 90.00th=[    2], 95.00th=[    2],
+     | 99.00th=[    4], 99.50th=[    4], 99.90th=[   14], 99.95th=[   15],
+     | 99.99th=[   16]
+    bw (Mbit/s): min=11037, max=11846, per=100.00%, avg=11753.70, stdev=76.84
+    lat (usec) : 2=48.81%, 4=48.86%, 10=2.01%, 20=0.32%, 50=0.01%
+    lat (usec) : 100=0.01%, 250=0.01%, 1000=0.01%
+  cpu          : usr=26.93%, sys=73.06%, ctx=138, majf=0, minf=7
+  IO depths    : 1=100.0%, 2=0.0%, 4=0.0%, 8=0.0%, 16=0.0%, 32=0.0%, >=64=0.0%
+     submit    : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
+     complete  : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
+     issued    : total=r=0/w=26214400/d=0, short=r=0/w=0/d=0, drop=r=0/w=0/d=0
+     latency   : target=0, window=0, percentile=100.00%, depth=1
+
+Run status group 0 (all jobs):
+   READ: io=102400MB, aggrb=11753Mbit/s, minb=11753Mbit/s, maxb=11753Mbit/s, mint=69699msec, maxt=69699msec
+  WRITE: io=102400MB, aggrb=11753Mbit/s, minb=11753Mbit/s, maxb=11753Mbit/s, mint=69699msec, maxt=69699msec
