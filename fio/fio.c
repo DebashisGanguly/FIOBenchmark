@@ -32,7 +32,7 @@ int main(int argc, char *argv[], char *envp[])
 {
 	int ret = 1;
 	
-	asm volatile(".byte 0x0F,0x01,0xC1\n" :: "a"(10));
+	//asm volatile(".byte 0x0F,0x01,0xC1\n" :: "a"(10));
 
 	if (initialize_fio(envp))
 		return 1;
@@ -69,7 +69,7 @@ done_key:
 done:
 	deinitialize_fio();
 	
-	asm volatile(".byte 0x0F,0x01,0xC1\n" :: "a"(11));
+	//asm volatile(".byte 0x0F,0x01,0xC1\n" :: "a"(11));
 
 	return ret;
 }
