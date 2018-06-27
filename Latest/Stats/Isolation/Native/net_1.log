@@ -1,44 +1,43 @@
-clock setaffinity failed: Invalid argument
 receiver: (g=0): rw=read, bs=4K-4K/4K-4K/4K-4K, ioengine=net, iodepth=8
 sender: (g=0): rw=write, bs=4K-4K/4K-4K/4K-4K, ioengine=net, iodepth=8
 fio-2.6
 Starting 2 processes
-@@@@thread id 6498 on cpu id 0
+@@@@thread id 5696 on cpu id 0
 fio: waiting for connection
-@@@@thread id 6499 on cpu id 1
+@@@@thread id 5697 on cpu id 1
 
-receiver: (groupid=0, jobs=1): err= 0: pid=6498: Thu Mar 15 04:48:15 2018
-  read : io=10240MB, bw=1044.5Mbit/s, iops=33409, runt= 78464msec
-    clat (usec): min=11, max=539, avg=27.80, stdev= 2.72
-     lat (usec): min=11, max=539, avg=28.08, stdev= 2.75
+receiver: (groupid=0, jobs=1): err= 0: pid=5696: Tue Jun 26 22:44:05 2018
+  read : io=10240MB, bw=879033Kbit/s, iops=27469, runt= 95430msec
+    clat (usec): min=14, max=506, avg=34.86, stdev= 4.21
+     lat (usec): min=14, max=506, avg=34.99, stdev= 4.22
     clat percentiles (usec):
-     |  1.00th=[   26],  5.00th=[   27], 10.00th=[   27], 20.00th=[   27],
-     | 30.00th=[   27], 40.00th=[   27], 50.00th=[   27], 60.00th=[   27],
-     | 70.00th=[   28], 80.00th=[   28], 90.00th=[   29], 95.00th=[   30],
-     | 99.00th=[   40], 99.50th=[   42], 99.90th=[   55], 99.95th=[   57],
-     | 99.99th=[  112]
-    bw (Mbit/s): min=    0, max= 1052, per=100.00%, avg=1037.45, stdev=83.76
-    lat (usec) : 20=0.01%, 50=99.82%, 100=0.16%, 250=0.01%, 500=0.01%
+     |  1.00th=[   33],  5.00th=[   33], 10.00th=[   33], 20.00th=[   33],
+     | 30.00th=[   33], 40.00th=[   34], 50.00th=[   34], 60.00th=[   34],
+     | 70.00th=[   34], 80.00th=[   35], 90.00th=[   38], 95.00th=[   42],
+     | 99.00th=[   52], 99.50th=[   61], 99.90th=[   70], 99.95th=[   75],
+     | 99.99th=[   89]
+    bw (Kbit/s): min=   24, max=906560, per=100.00%, avg=874549.74, stdev=65008.49
+    lat (usec) : 20=0.01%, 50=98.64%, 100=1.35%, 250=0.01%, 500=0.01%
     lat (usec) : 750=0.01%
-  cpu          : usr=9.24%, sys=55.50%, ctx=2621924, majf=0, minf=4
+  cpu          : usr=6.62%, sys=47.77%, ctx=2621562, majf=0, minf=10
   IO depths    : 1=100.0%, 2=0.0%, 4=0.0%, 8=0.0%, 16=0.0%, 32=0.0%, >=64=0.0%
      submit    : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
      complete  : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
      issued    : total=r=2621440/w=0/d=0, short=r=0/w=0/d=0, drop=r=0/w=0/d=0
      latency   : target=0, window=0, percentile=100.00%, depth=8
-sender: (groupid=0, jobs=1): err= 0: pid=6499: Thu Mar 15 04:48:15 2018
-  write: io=10240MB, bw=1044.5Mbit/s, iops=33409, runt= 78464msec
-    clat (usec): min=24, max=534, avg=27.84, stdev= 2.61
-     lat (usec): min=24, max=535, avg=28.16, stdev= 2.63
+sender: (groupid=0, jobs=1): err= 0: pid=5697: Tue Jun 26 22:44:05 2018
+  write: io=10240MB, bw=879023Kbit/s, iops=27469, runt= 95431msec
+    clat (usec): min=31, max=521, avg=34.82, stdev= 4.15
+     lat (usec): min=31, max=521, avg=35.00, stdev= 4.17
     clat percentiles (usec):
-     |  1.00th=[   26],  5.00th=[   27], 10.00th=[   27], 20.00th=[   27],
-     | 30.00th=[   27], 40.00th=[   27], 50.00th=[   27], 60.00th=[   28],
-     | 70.00th=[   28], 80.00th=[   28], 90.00th=[   29], 95.00th=[   30],
-     | 99.00th=[   40], 99.50th=[   42], 99.90th=[   55], 99.95th=[   57],
-     | 99.99th=[  102]
-    bw (Mbit/s): min=  967, max= 1052, per=100.00%, avg=1044.10, stdev= 8.57
-    lat (usec) : 50=99.85%, 100=0.14%, 250=0.01%, 750=0.01%
-  cpu          : usr=8.66%, sys=54.84%, ctx=2621548, majf=0, minf=6
+     |  1.00th=[   33],  5.00th=[   33], 10.00th=[   33], 20.00th=[   33],
+     | 30.00th=[   33], 40.00th=[   34], 50.00th=[   34], 60.00th=[   34],
+     | 70.00th=[   34], 80.00th=[   35], 90.00th=[   38], 95.00th=[   42],
+     | 99.00th=[   52], 99.50th=[   61], 99.90th=[   70], 99.95th=[   74],
+     | 99.99th=[   88]
+    bw (Kbit/s): min=796224, max=906560, per=100.00%, avg=879150.82, stdev=13465.92
+    lat (usec) : 50=98.65%, 100=1.34%, 250=0.01%, 500=0.01%, 750=0.01%
+  cpu          : usr=5.75%, sys=49.55%, ctx=2621453, majf=0, minf=9
   IO depths    : 1=100.0%, 2=0.0%, 4=0.0%, 8=0.0%, 16=0.0%, 32=0.0%, >=64=0.0%
      submit    : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
      complete  : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
@@ -46,5 +45,5 @@ sender: (groupid=0, jobs=1): err= 0: pid=6499: Thu Mar 15 04:48:15 2018
      latency   : target=0, window=0, percentile=100.00%, depth=8
 
 Run status group 0 (all jobs):
-   READ: io=10240MB, aggrb=1044.4Mbit/s, minb=1044.4Mbit/s, maxb=1044.4Mbit/s, mint=78464msec, maxt=78464msec
-  WRITE: io=10240MB, aggrb=1044.4Mbit/s, minb=1044.4Mbit/s, maxb=1044.4Mbit/s, mint=78464msec, maxt=78464msec
+   READ: io=10240MB, aggrb=879032Kbit/s, minb=879032Kbit/s, maxb=879032Kbit/s, mint=95430msec, maxt=95430msec
+  WRITE: io=10240MB, aggrb=879016Kbit/s, minb=879016Kbit/s, maxb=879016Kbit/s, mint=95431msec, maxt=95431msec
