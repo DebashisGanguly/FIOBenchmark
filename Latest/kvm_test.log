@@ -1,0 +1,52 @@
+receiver: (g=0): rw=read, bs=4K-4K/4K-4K/4K-4K, ioengine=net, iodepth=8
+sender: (g=0): rw=write, bs=4K-4K/4K-4K/4K-4K, ioengine=net, iodepth=8
+fio-2.6
+Starting 2 processes
+@@@@thread id 4323 on cpu id 1
+fio: waiting for connection
+@@@@thread id 4324 on cpu id 0
+
+receiver: (groupid=0, jobs=1): err= 0: pid=4323: Tue May 29 14:12:30 2018
+  read : io=10240MB, bw=600649Kbit/s, iops=18770, runt=139659msec
+    clat (usec): min=23, max=3446, avg=50.83, stdev= 6.40
+     lat (usec): min=23, max=3446, avg=51.19, stdev= 6.41
+    clat percentiles (usec):
+     |  1.00th=[   44],  5.00th=[   47], 10.00th=[   49], 20.00th=[   49],
+     | 30.00th=[   49], 40.00th=[   50], 50.00th=[   50], 60.00th=[   50],
+     | 70.00th=[   50], 80.00th=[   51], 90.00th=[   56], 95.00th=[   59],
+     | 99.00th=[   67], 99.50th=[   71], 99.90th=[   82], 99.95th=[   89],
+     | 99.99th=[  159]
+    bw (Kbit/s): min=   24, max=676544, per=100.00%, avg=598547.51, stdev=37617.44
+    lat (usec) : 50=34.44%, 100=65.54%, 250=0.02%, 500=0.01%, 750=0.01%
+    lat (usec) : 1000=0.01%
+    lat (msec) : 2=0.01%, 4=0.01%
+  cpu          : usr=6.37%, sys=50.49%, ctx=2621433, majf=0, minf=4
+  IO depths    : 1=100.0%, 2=0.0%, 4=0.0%, 8=0.0%, 16=0.0%, 32=0.0%, >=64=0.0%
+     submit    : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
+     complete  : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
+     issued    : total=r=2621440/w=0/d=0, short=r=0/w=0/d=0, drop=r=0/w=0/d=0
+     latency   : target=0, window=0, percentile=100.00%, depth=8
+sender: (groupid=0, jobs=1): err= 0: pid=4324: Tue May 29 14:12:30 2018
+  write: io=10240MB, bw=600645Kbit/s, iops=18770, runt=139660msec
+    clat (usec): min=40, max=3505, avg=50.82, stdev= 6.58
+     lat (usec): min=40, max=3506, avg=51.22, stdev= 6.60
+    clat percentiles (usec):
+     |  1.00th=[   44],  5.00th=[   48], 10.00th=[   49], 20.00th=[   49],
+     | 30.00th=[   49], 40.00th=[   50], 50.00th=[   50], 60.00th=[   50],
+     | 70.00th=[   50], 80.00th=[   51], 90.00th=[   55], 95.00th=[   59],
+     | 99.00th=[   66], 99.50th=[   71], 99.90th=[   80], 99.95th=[   88],
+     | 99.99th=[  159]
+    bw (Kbit/s): min=525824, max=676544, per=100.00%, avg=600691.38, stdev=11286.70
+    lat (usec) : 50=33.48%, 100=66.50%, 250=0.02%, 500=0.01%, 750=0.01%
+    lat (usec) : 1000=0.01%
+    lat (msec) : 2=0.01%, 4=0.01%
+  cpu          : usr=5.12%, sys=51.54%, ctx=2621461, majf=0, minf=6
+  IO depths    : 1=100.0%, 2=0.0%, 4=0.0%, 8=0.0%, 16=0.0%, 32=0.0%, >=64=0.0%
+     submit    : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
+     complete  : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
+     issued    : total=r=0/w=2621440/d=0, short=r=0/w=0/d=0, drop=r=0/w=0/d=0
+     latency   : target=0, window=0, percentile=100.00%, depth=8
+
+Run status group 0 (all jobs):
+   READ: io=10240MB, aggrb=600648Kbit/s, minb=600648Kbit/s, maxb=600648Kbit/s, mint=139659msec, maxt=139659msec
+  WRITE: io=10240MB, aggrb=600640Kbit/s, minb=600640Kbit/s, maxb=600640Kbit/s, mint=139660msec, maxt=139660msec
